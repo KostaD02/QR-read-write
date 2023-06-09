@@ -1,4 +1,4 @@
-# QRReadWrite
+# QR Read & Write
 
 
 ## Development server
