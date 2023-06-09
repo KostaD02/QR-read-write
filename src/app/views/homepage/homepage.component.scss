@@ -1,0 +1,203 @@
+@use "../../../scss/variables" as *;
+@use "../../../scss/mixins" as *;
+
+main {
+  width: 100%;
+  min-height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+
+  section {
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  section.part {
+    max-width: fit-content;
+    padding: 10px;
+    @include flex-center(25px);
+
+    aside {
+      button {
+        display: inline-block;
+        color: $green-color;
+        transition: $transition;
+        text-decoration: none;
+        text-decoration-skip-ink: auto;
+        position: relative;
+        background-color: transparent;
+        border: 0px;
+        padding-bottom: 5px;
+        font-size: 20px;
+        cursor: pointer;
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          transform: scaleX(0);
+          height: 1px;
+          bottom: -1px;
+          left: 0px;
+          transform-origin: bottom left;
+          transition: transform 0.25s ease;
+          background: $green-color;
+        }
+
+        &:hover,
+        &:focus-visible {
+          outline: none;
+
+          &::after {
+            transform: scaleX(1);
+          }
+        }
+      }
+      button.active {
+        &::after {
+          transform: scaleX(1);
+        }
+      }
+    }
+    aside.right {
+      button {
+        &::after {
+          transform-origin: bottom right;
+        }
+      }
+    }
+  }
+
+  section.content {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 15px;
+    place-items: center;
+
+    p {
+      color: $white-color;
+    }
+
+    zxing-scanner {
+      width: 100%;
+      max-width: 400px;
+      max-height: 400px;
+    }
+
+    a {
+      line-break: anywhere;
+    }
+  }
+
+  section.code {
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: 1fr 373px;
+    gap: 15px;
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 10px;
+
+      .wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+
+        div {
+          display: grid;
+          grid-template-columns: 1fr;
+
+          label {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: $lightest-slate-color;
+          }
+
+          input {
+            margin: 0px 0px 0.5rem;
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: $slate-color;
+            background-color: $light-navy-color;
+            background-clip: padding-box;
+            border: 1px solid $navy-color-alpha;
+            border-radius: 0.375rem;
+            transition: $transition;
+
+            &::placeholder {
+              color: $slate-color;
+            }
+
+            &:focus {
+              color: $slate-color;
+              background-color: $light-navy-color;
+              outline: none;
+              border-color: $navy-color;
+              box-shadow: $box-shadow;
+              transform: $transform;
+            }
+          }
+          input[type=file] {
+            cursor: pointer;
+            overflow: hidden;
+          }
+          input[type=file]::file-selector-button {
+            padding: 0.375rem 0.75rem;
+            margin: -0.375rem -0.75rem;
+            -webkit-margin-end: 0.75rem;
+            margin-inline-end: 0.75rem;
+            line-height: 1.5;
+            color: $slate-color;
+            background-color: $lightest-navy-color;
+            border-color: inherit;
+            border-style: solid;
+            border-width: 0;
+            border-inline-end-width: 1px;
+            border-radius: 0;
+            transition: $transition;
+
+            &:hover {
+              background-color: #293955;
+            }
+          }
+        }
+      }
+      .button {
+        margin-left: 4px;
+      }
+    }
+
+    .right {
+      min-height: 250px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    section.code {
+      grid-template-columns: 1fr;
+      place-items: center;
+      gap: 20px;
+      aside {
+        width: 90%;
+      }
+      aside.right {
+        @include flex-center();
+      }
+    }
+  }
+}

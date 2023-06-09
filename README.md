@@ -1,5 +1,6 @@
-# QR-read-write
+# QRReadWrite
 
-Generate QR code with or without an image, or read a QR image.
 
 ## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
