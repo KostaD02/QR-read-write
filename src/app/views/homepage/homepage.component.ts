@@ -61,9 +61,17 @@ export class HomepageComponent implements OnInit {
   }
 
   givePermission() {
-    navigator.mediaDevices.getUserMedia({ video: true });
-    this.userAgreed = true;
-    localStorage.setItem('user_agreed_camera', 'yes');
+    navigator.mediaDevices
+    .getUserMedia({
+      video: true,
+    })
+    .then(() => {
+      this.userAgreed = true;
+      localStorage.setItem('user_agreed_camera', 'yes');
+    })
+    .catch(() => {
+      this.userAgreed = false;
+    });
   }
 
   onChange(data: KeyboardEvent) {

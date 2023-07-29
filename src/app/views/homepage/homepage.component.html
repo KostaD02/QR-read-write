@@ -8,11 +8,16 @@
     </aside>
   </section>
   <section class="content" *ngIf="showRead">
-    <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
-    <p *ngIf="scanResult">Result :
-      <span *ngIf="!isHttp"> {{ scanResult }}</span>
-      <a class="external" *ngIf="isHttp" [href]="scanResult"> {{ scanResult }}</a>
-    </p>
+    <div *ngIf="userAgreed; else notAgreed">
+      <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
+      <p *ngIf="scanResult">Result :
+        <span *ngIf="!isHttp"> {{ scanResult }}</span>
+        <a class="external" *ngIf="isHttp" [href]="scanResult"> {{ scanResult }}</a>
+      </p>
+    </div>
+    <ng-template #notAgreed>
+      <p>No video device</p>
+    </ng-template>
   </section>
   <section class="code" *ngIf="!showRead" id="codePart">
     <aside class="left">
