@@ -9,10 +9,16 @@
   </section>
   <section class="content" *ngIf="showRead">
     <div *ngIf="userAgreed; else notAgreed">
-      <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
-      <p *ngIf="scanResult">Result :
+      <zxing-scanner
+        (scanSuccess)="onCodeResult($event)"
+        (scanError)="showError($event)"
+      ></zxing-scanner>
+      <p *ngIf="scanResult">
+        Result :
         <span *ngIf="!isHttp"> {{ scanResult }}</span>
-        <a class="external" *ngIf="isHttp" [href]="scanResult"> {{ scanResult }}</a>
+        <a class="external" *ngIf="isHttp" [href]="scanResult">
+          {{ scanResult }}</a
+        >
       </p>
     </div>
     <ng-template #notAgreed>
@@ -24,11 +30,20 @@
       <div class="wrapper">
         <div>
           <label for="code-data">Qr data</label>
-          <input (keyup)="onChange($event)" id="code-data" type="text" placeholder="Qr code data">
+          <input
+            (keyup)="onChange($event)"
+            id="code-data"
+            type="text"
+            placeholder="Qr code data"
+          />
         </div>
         <div>
           <label for="">Qr Image</label>
-          <input (change)="onImageChange($event)" type="file" accept="image/*">
+          <input
+            (change)="onImageChange($event)"
+            type="file"
+            accept="image/*"
+          />
         </div>
       </div>
       <div class="button">

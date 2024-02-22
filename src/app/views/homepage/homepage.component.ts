@@ -4,17 +4,17 @@ import QRCode from 'easyqrcodejs';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss']
+  styleUrls: ['./homepage.component.scss'],
 })
 export class HomepageComponent implements OnInit {
   public showRead: boolean = true;
   public userAgreed: boolean = false;
-  public scanResult: string = "";
+  public scanResult: string = '';
   public isHttp: boolean = false;
 
   private options = {
-    text: "https://konstantinedatunishvili.com/",
-    logo: "../../../assets/images/logo_500x500.png",
+    text: 'https://konstantinedatunishvili.com/',
+    logo: '../../../assets/images/logo_500x500.png',
     width: 320,
     height: 320,
     colorDark: '#0a192f',
@@ -26,7 +26,7 @@ export class HomepageComponent implements OnInit {
   };
 
   @HostListener('window:resize') resize() {
-    const codePart = document.getElementById("codePart") as HTMLElement;
+    const codePart = document.getElementById('codePart') as HTMLElement;
     if (codePart) {
       if (codePart.offsetWidth <= 380) {
         this.options.width = codePart.offsetWidth - 55;
@@ -40,6 +40,7 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.givePermission();
     if (localStorage.getItem('user_agreed_camera')) {
       this.userAgreed = true;
     }
@@ -62,29 +63,29 @@ export class HomepageComponent implements OnInit {
 
   givePermission() {
     navigator.mediaDevices
-    .getUserMedia({
-      video: true,
-    })
-    .then(() => {
-      this.userAgreed = true;
-      localStorage.setItem('user_agreed_camera', 'yes');
-    })
-    .catch(() => {
-      this.userAgreed = false;
-    });
+      .getUserMedia({
+        video: true,
+      })
+      .then(() => {
+        this.userAgreed = true;
+        localStorage.setItem('user_agreed_camera', 'yes');
+      })
+      .catch(() => {
+        this.userAgreed = false;
+      });
   }
 
   onChange(data: KeyboardEvent) {
     const target = data.target as HTMLInputElement;
     this.options.text = target.value;
 
-    if (this.options.logo === "../../../assets/images/logo_500x500.png") {
-      this.options.logo = "";
+    if (this.options.logo === '../../../assets/images/logo_500x500.png') {
+      this.options.logo = '';
     }
 
-    if (target.value === " " || target.value === "") {
-      this.options.text = "https://konstantinedatunishvili.com/";
-      this.options.logo = "../../../assets/images/logo_500x500.png";
+    if (target.value === ' ' || target.value === '') {
+      this.options.text = 'https://konstantinedatunishvili.com/';
+      this.options.logo = '../../../assets/images/logo_500x500.png';
     }
     this.updateQRCode();
   }
@@ -97,15 +98,15 @@ export class HomepageComponent implements OnInit {
       fileReader.onload = () => {
         this.options.logo = fileReader.result as string;
         this.updateQRCode();
-      }
+      };
     }
   }
 
   downloadQrCode() {
-    const canvasImage = ((document.getElementById("qrCodeDisplay") as HTMLElement).children[0] as HTMLCanvasElement).toDataURL(
-      'image/png',
-      1.0
-    );
+    const canvasImage = (
+      (document.getElementById('qrCodeDisplay') as HTMLElement)
+        .children[0] as HTMLCanvasElement
+    ).toDataURL('image/png', 1.0);
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function () {
@@ -122,12 +123,21 @@ export class HomepageComponent implements OnInit {
   }
 
   updateQRCode() {
-    const qrCodeDisplay = document.getElementById("qrCodeDisplay") as HTMLElement;
+    const qrCodeDisplay = document.getElementById(
+      'qrCodeDisplay'
+    ) as HTMLElement;
     try {
-      qrCodeDisplay.innerHTML = "";
+      qrCodeDisplay.innerHTML = '';
       new QRCode(qrCodeDisplay, this.options);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
+  }
+
+  showError(text: Error) {
+    if (text.message === 'Could not start video source') {
+      this.userAgreed = false;
+    }
+    console.log(text);
   }
 }
